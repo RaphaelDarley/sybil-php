@@ -1,0 +1,2 @@
+sudo mysql sybil < /var/www/sybil.lan/_SQL/teardown.sql
+sudo mysql sybil < /var/www/sybil.lan/_SQL/schema.sql
