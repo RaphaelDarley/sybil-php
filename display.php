@@ -32,7 +32,7 @@ $rows = $get_stmt->fetchAll();
     <?php
     $result_num = count($rows);
     echo "$result_num results found";
-    var_dump($rows)
+    // var_dump($rows)
     ?>
 
     <table>
