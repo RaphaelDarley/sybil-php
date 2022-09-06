@@ -1,9 +1,9 @@
  CREATE TABLE `notes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `text` TEXT NOT NULL,
-  `category` INT,
+  `category_id` INT,
   `source` VARCHAR(1023),
-  `tags` VARCHAR(1023),
+  `tag_ids` VARCHAR(1023),
   `timestamp` timestamp NOT NULL,
   PRIMARY KEY (`id`));
 
