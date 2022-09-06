@@ -1,0 +1,1 @@
+sudo mysql sybil < /var/www/sybil.lan/_SQL/mock_data.sql
