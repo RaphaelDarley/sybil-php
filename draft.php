@@ -11,9 +11,8 @@
 
     <?php
     include_once 'database_init.php';
-    $cat_stmt = $pdo->prepare("SELECT * FROM categories");
-    $cat_stmt->execute();
-    $cat_rows = $cat_stmt->fetchAll();
+    include_once 'utils.php';
+    $cat_rows = get_categories($pdo);
     ?>
 
     <form method="POST" action="add_note.php">

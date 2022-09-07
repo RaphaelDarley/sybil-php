@@ -4,6 +4,7 @@
 include_once 'database_init.php';
 include_once 'utils.php';
 
+// var_dump($_REQUEST);
 
 if (isset($_REQUEST["search"]) && $_REQUEST["search"] != "") {
     $request_search = $_REQUEST["search"];
@@ -14,6 +15,11 @@ if (isset($_REQUEST["search"]) && $_REQUEST["search"] != "") {
     print_r($where_stmt);
 } else {
     $where_stmt = "";
+}
+
+if (isset($_REQUEST["category"]) && $_REQUEST["category"] != "") {
+    $like_category = "category_id LIKE '%" . $_REQUEST["category"] . "%'";
+    $where_stmt = empty($where_stmt) ? $like_category : $where_stmt . " AND " . $like_category;
 }
 
 $where_stmt = !empty($where_stmt) ? "WHERE ($where_stmt)" : "";
@@ -30,6 +36,10 @@ $get_stmt = $pdo->prepare("
 $get_stmt->execute();
 
 $rows = $get_stmt->fetchAll();
+?>
+
+<?php
+$cat_rows = get_categories($pdo);
 ?>
 
 <html>
@@ -53,9 +63,21 @@ $rows = $get_stmt->fetchAll();
     </a>
 
 
+
+
     <form method="get">
         <label for="search"></label>
         <input type="text" name="search">
+
+        <label for="category">category:</label>
+        <select name="category">
+            <option value="">all</option>
+            <?php foreach ($cat_rows as $cat) {
+                $cat_id = $cat["id"];
+                $cat_name = $cat["name"];
+                echo "<option value='$cat_id'>$cat_name</option>";
+            } ?>
+        </select>
 
         <button type="submit">search</button>
     </form>
