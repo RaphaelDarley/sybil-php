@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <?php
-include_once 'utils.php';
 include_once 'database_init.php';
+include_once 'utils.php';
 
 $get_stmt = $pdo->prepare("
     SELECT notes.id as note_id, text, source, timestamp, categories.name as category
