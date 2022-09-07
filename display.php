@@ -62,9 +62,6 @@ $cat_rows = get_categories($pdo);
         <strong>add notes</strong>
     </a>
 
-
-
-
     <form method="get">
         <label for="search"></label>
         <input type="text" name="search">
@@ -88,6 +85,11 @@ $cat_rows = get_categories($pdo);
     // var_dump($rows)
     ?>
 
+    <form action="draft_edit.php">
+        <input type="hidden" name="note_id" value=1>
+        <button type="submit">edit</button>
+    </form>
+
     <table>
         <tr>
             <th>ID</th>
@@ -96,38 +98,10 @@ $cat_rows = get_categories($pdo);
             <th>source</th>
             <th>category</th>
             <th>tags</th>
+            <th>edit</th>
         </tr>
 
         <?php
-
-        function get_tags($pdo, $note_id)
-        {
-            // $tag_stmt = $pdo->prepare("
-            // SELECT tags.name as tag
-            // FROM notes
-            // INNER JOIN tag_junction
-            //     ON notes.id = tag_junction.note_id
-            // INNER JOIN tag_junction
-            //     ON tag_junction.tag_id = tags.id
-            // ");
-            $tag_stmt = $pdo->prepare("
-            SELECT tags.name as tag
-            FROM tag_junction
-            INNER JOIN tags
-                ON tag_junction.tag_id = tags.id
-            WHERE note_id = :note_id
-            ");
-            $tag_stmt->execute(["note_id" => $note_id]);
-            $rows = $tag_stmt->fetchAll();
-            // var_dump($rows);
-            $tags = array_map(function ($t) {
-                return $t["tag"];
-            }, $rows);
-            return join(", ", $tags);
-            // return $tags;
-        }
-
-
 
         foreach ($rows as $db_row) {
 
@@ -150,7 +124,12 @@ $cat_rows = get_categories($pdo);
 
             // var_dump($tags);
 
-            $html_row = "<tr> <td>$id</td> <td>$timestamp</td> <td>$text</td> <td>$source</td> <td>$category</td> <td>$tags</td> </tr>";
+            $edit_form = "<form action='draft_edit.php'>
+            <input type='hidden' name='note_id' value=$id>
+            <button type='submit'>edit</button>
+        </form>";
+
+            $html_row = "<tr> <td>$id</td> <td>$timestamp</td> <td>$text</td> <td>$source</td> <td>$category</td> <td>$tags</td> <td>$edit_form</td> </tr>";
 
             echo $html_row;
         }
