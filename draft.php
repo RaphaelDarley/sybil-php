@@ -38,6 +38,14 @@
         <button type="submit">submit</button>
     </form>
 
+    <h2>Add a category</h2>
+
+    <form action="add_category.php" method="post">
+        <label for="category_name">category name:</label>
+        <input type="text" name="category_name">
+        <button type="submit">add</button>
+    </form>
+
 </body>
 
 </html>
