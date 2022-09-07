@@ -4,10 +4,27 @@
 include_once 'database_init.php';
 include_once 'utils.php';
 
+
+if (isset($_REQUEST["search"]) && $_REQUEST["search"] != "") {
+    $request_search = $_REQUEST["search"];
+    $search_arr = explode(" & ", $request_search);
+    // print_r($search_arr);
+
+    $where_stmt = join(" AND ", array_map("term_to_like_text", $search_arr));
+    print_r($where_stmt);
+} else {
+    $where_stmt = "";
+}
+
+$where_stmt = !empty($where_stmt) ? "WHERE ($where_stmt)" : "";
+$test = "";
+echo $where_stmt;
+
 $get_stmt = $pdo->prepare("
     SELECT notes.id as note_id, text, source, timestamp, categories.name as category
     FROM notes
     INNER JOIN categories ON notes.category_id = categories.id
+    $where_stmt
     LIMIT 100
     ");
 $get_stmt->execute();
@@ -34,6 +51,14 @@ $rows = $get_stmt->fetchAll();
     <a href="draft.php">
         <strong>add notes</strong>
     </a>
+
+
+    <form method="get">
+        <label for="search"></label>
+        <input type="text" name="search">
+
+        <button type="submit">search</button>
+    </form>
 
     <?php
     $result_num = count($rows);
