@@ -4,6 +4,11 @@ function term_to_like_text($term)
     return "text LIKE '%$term%'";
 }
 
+function term_to_like_tag($term)
+{
+    return "tags.name LIKE '%$term%'";
+}
+
 function get_categories($pdo)
 {
     $cat_stmt = $pdo->prepare("SELECT * FROM categories");

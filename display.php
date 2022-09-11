@@ -12,7 +12,7 @@ if (isset($_REQUEST["search"]) && $_REQUEST["search"] != "") {
     // print_r($search_arr);
 
     $where_stmt = join(" AND ", array_map("term_to_like_text", $search_arr));
-    print_r($where_stmt);
+    // print_r($where_stmt);
 } else {
     $where_stmt = "";
 }
@@ -22,6 +22,18 @@ if (isset($_REQUEST["category"]) && $_REQUEST["category"] != "") {
     $where_stmt = empty($where_stmt) ? $like_category : $where_stmt . " AND " . $like_category;
 }
 
+
+if (isset($_REQUEST["search_tags"]) && $_REQUEST["search_tags"] != "") {
+    $search_tags = $_REQUEST["search_tags"];
+    $tag_arr = explode(" & ", $search_tags);
+    // print_r($search_arr);
+
+    $tag_stmt = join(" AND ", array_map("term_to_like_tag", $tag_arr));
+    $where_stmt = empty($where_stmt) ? $tag_stmt : $where_stmt . " AND " . $tag_stmt;
+}
+
+
+
 $where_stmt = !empty($where_stmt) ? "WHERE ($where_stmt)" : "";
 $test = "";
 echo $where_stmt;
@@ -29,9 +41,11 @@ echo $where_stmt;
 $order = default_val($_REQUEST["order"], "timestamp DESC");
 
 $get_stmt = $pdo->prepare("
-    SELECT notes.id as note_id, text, source, timestamp, categories.name as category
+    SELECT DISTINCT notes.id as note_id, text, source, timestamp, categories.name as category
     FROM notes
     INNER JOIN categories ON notes.category_id = categories.id
+    LEFT OUTER JOIN tag_junction ON notes.id = tag_junction.note_id
+    LEFT OUTER JOIN tags ON tag_junction.tag_id = tags.id
     $where_stmt
     ORDER BY $order
     LIMIT 100
@@ -68,6 +82,9 @@ $cat_rows = get_categories($pdo);
     <form method="get">
         <label for="search"></label>
         <input type="text" name="search">
+
+        <label for="search_tags">tags:</label>
+        <input type="text" name="search_tags">
 
         <label for="category">category:</label>
         <select name="category">
