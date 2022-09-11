@@ -26,11 +26,14 @@ $where_stmt = !empty($where_stmt) ? "WHERE ($where_stmt)" : "";
 $test = "";
 echo $where_stmt;
 
+$order = default_val($_REQUEST["order"], "timestamp DESC");
+
 $get_stmt = $pdo->prepare("
     SELECT notes.id as note_id, text, source, timestamp, categories.name as category
     FROM notes
     INNER JOIN categories ON notes.category_id = categories.id
     $where_stmt
+    ORDER BY $order
     LIMIT 100
     ");
 $get_stmt->execute();
@@ -74,6 +77,12 @@ $cat_rows = get_categories($pdo);
                 $cat_name = $cat["name"];
                 echo "<option value='$cat_id'>$cat_name</option>";
             } ?>
+        </select>
+
+        <label for="order">order by:</label>
+        <select name="order">
+            <option value="timestamp DESC" <?php echo $order == "timestamp DESC" ? "selected" : ""; ?>>newest</option>
+            <option value="timestamp ASC" <?php echo $order == "timestamp ASC" ? "selected" : ""; ?>>oldest</option>
         </select>
 
         <button type="submit">search</button>

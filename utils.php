@@ -55,3 +55,21 @@ function link_note_to_tag($pdo, $note_id, $tag_id)
     $link_stmt = $pdo->prepare("INSERT INTO tag_junction (note_id, tag_id) VALUES(:note_id, :tag_id);");
     $link_stmt->execute(["note_id" => $note_id, "tag_id" => $tag_id]);
 }
+
+
+
+function default_val($value, $default)
+{
+    if (isset($value)) {
+        return $value;
+    } else {
+        return $default;
+    }
+}
+
+function persist_value($value)
+{
+    if (isset($value)) {
+        echo "value=\"$value\"";
+    }
+}
