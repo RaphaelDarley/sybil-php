@@ -7,6 +7,7 @@
 </head>
 
 <body>
+    <?php include_once "navbar.html" ?>
     <h1>Edit a note</h1>
 
     <?php
