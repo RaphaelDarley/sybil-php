@@ -108,11 +108,6 @@ $cat_rows = get_categories($pdo);
     // var_dump($rows)
     ?>
 
-    <form action="draft_edit.php">
-        <input type="hidden" name="note_id" value=1>
-        <button type="submit">edit</button>
-    </form>
-
     <table>
         <tr>
             <th>edit</th>
