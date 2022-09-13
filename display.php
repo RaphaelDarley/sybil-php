@@ -118,13 +118,12 @@ $cat_rows = get_categories($pdo);
 
     <table>
         <tr>
-            <th>ID</th>
-            <th>timestamp</th>
-            <th>text</th>
+            <th>edit</th>
+            <th>date</th>
             <th>source</th>
             <th>category</th>
             <th>tags</th>
-            <th>edit</th>
+            <th>text</th>
         </tr>
 
         <?php
@@ -155,7 +154,7 @@ $cat_rows = get_categories($pdo);
             <button type='submit'>edit</button>
         </form>";
 
-            $html_row = "<tr> <td>$id</td> <td>$timestamp</td> <td>$text</td> <td>$source</td> <td>$category</td> <td>$tags</td> <td>$edit_form</td> </tr>";
+            $html_row = "<tr> <td>$edit_form</td> <td>$timestamp</td> <td>$source</td> <td>$category</td> <td>$tags</td> <td>$text</td> </tr>";
 
             echo $html_row;
         }
