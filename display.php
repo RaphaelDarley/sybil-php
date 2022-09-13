@@ -4,6 +4,7 @@
 include_once 'database_init.php';
 include_once 'utils.php';
 
+
 // var_dump($_REQUEST);
 
 if (isset($_REQUEST["search"]) && $_REQUEST["search"] != "") {
@@ -74,11 +75,7 @@ $cat_rows = get_categories($pdo);
 </head>
 
 <body>
-
-    <a href="draft.php">
-        <strong>add notes</strong>
-    </a>
-
+    <?php include_once "navbar.html" ?>
     <form method="get">
         <label for="search"></label>
         <input type="text" name="search">
