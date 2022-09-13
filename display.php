@@ -41,7 +41,7 @@ echo $where_stmt;
 $order = default_val($_REQUEST["order"], "timestamp DESC");
 
 $get_stmt = $pdo->prepare("
-    SELECT DISTINCT notes.id as note_id, text, source, timestamp, categories.name as category
+    SELECT DISTINCT notes.id as note_id, text, source, DATE(timestamp) as date, timestamp, categories.name as category
     FROM notes
     INNER JOIN categories ON notes.category_id = categories.id
     LEFT OUTER JOIN tag_junction ON notes.id = tag_junction.note_id
@@ -118,13 +118,12 @@ $cat_rows = get_categories($pdo);
 
     <table>
         <tr>
-            <th>ID</th>
-            <th>timestamp</th>
-            <th>text</th>
+            <th>edit</th>
+            <th>date</th>
             <th>source</th>
             <th>category</th>
             <th>tags</th>
-            <th>edit</th>
+            <th>text</th>
         </tr>
 
         <?php
@@ -133,7 +132,7 @@ $cat_rows = get_categories($pdo);
 
             $id = $db_row["note_id"];
 
-            $timestamp = $db_row["timestamp"];
+            $date = $db_row["date"];
 
             $text = $db_row["text"];
 
@@ -155,7 +154,7 @@ $cat_rows = get_categories($pdo);
             <button type='submit'>edit</button>
         </form>";
 
-            $html_row = "<tr> <td>$id</td> <td>$timestamp</td> <td>$text</td> <td>$source</td> <td>$category</td> <td>$tags</td> <td>$edit_form</td> </tr>";
+            $html_row = "<tr> <td>$edit_form</td> <td>$date</td> <td>$source</td> <td>$category</td> <td>$tags</td> <td>$text</td> </tr>";
 
             echo $html_row;
         }
