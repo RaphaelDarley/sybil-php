@@ -17,7 +17,7 @@
 
     <form method="POST" action="add_note.php">
         <label for="note_text">enter note text:</label> <br>
-        <textarea name="note_text" cols="30" rows="10"></textarea>
+        <textarea name="note_text" cols="100" rows="20"></textarea>
 
         <label for="category">category:</label>
         <select name="category">
