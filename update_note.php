@@ -3,7 +3,7 @@ include_once 'database_init.php';
 include_once 'utils.php';
 
 
-var_dump($_REQUEST);
+// var_dump($_REQUEST);
 
 $note_id = $_REQUEST["note_id"];
 
